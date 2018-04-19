@@ -6,4 +6,6 @@ CORE文件的GDB调试过程。
 4.info register 获取所有register的值
 5.layout asm 显示汇编代码
 6.p打印，n下一步，s步入，c继续。
+7.layout显示代码。
+
 还有很多，需要不断总结。
