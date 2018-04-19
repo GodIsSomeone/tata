@@ -16,3 +16,9 @@ class Solution {
             return (ret > INT_MAX || ret < INT_MIN) ? 0 : ret;
         }
 };
+
+int main(){
+    int i = 1534236469;
+    cout << Solution().reverse(i)<<endl;
+    return 0;
+}
