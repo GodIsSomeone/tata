@@ -42,3 +42,33 @@
      cout << Solution().maxArea(height)<<endl;
      return 0;
  }
+
+
+
+搞笑版
+
+ class Solution {
+ public:
+	 int maxArea(vector<int>& height) 
+	 {
+		 int size = height.size();
+		 int width = 0;
+		 int area = 0;
+		 int i = 0;
+		 int j = size - 1;
+		 while (i<j)
+		 {
+			 width = min(height[i], height[j]);
+			 area = max(area, width*(j - i));
+			 while (i<j&&width>=height[i])
+			 {
+				 ++i;
+			 }
+			 while (i<j&&width>=height[j])
+			 {
+				 --j;
+			 }
+		 }
+		 return area;
+	 }
+ };
