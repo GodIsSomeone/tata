@@ -4,7 +4,7 @@
 
 3.数据保护：mutex  unique_lock和lock_guard的区别。
   unique_lock相对lock_guard更灵活的地方在于在等待中的线程如果在等待期间需要解锁mutex，并在之后重新将其锁定。而lock_guard却不具备这样的功能。
-
+  unique_lock 一般和condition_variable一起用。
 4.线程条件：condition_variable
 
 
