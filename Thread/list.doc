@@ -6,6 +6,8 @@
   unique_lock相对lock_guard更灵活的地方在于在等待中的线程如果在等待期间需要解锁mutex，并在之后重新将其锁定。而lock_guard却不具备这样的功能。
   unique_lock 一般和condition_variable一起用。
 4.线程条件：condition_variable
+  当 std::condition_variable 对象的某个 wait 函数被调用的时候，它使用 std::unique_lock(通过 std::mutex) 来锁住当前线程。
+  当前线程会一直被阻塞，直到另外一个线程在相同的 std::condition_variable 对象上调用了 notification 函数来唤醒当前线程。
 
 
 
