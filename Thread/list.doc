@@ -16,10 +16,10 @@
 
 其他知识：
 STL：
-如何使用std::mem_fn mem_fun mem_fun_ref
+如何使用std::mem_fn（c++11标准） mem_fun mem_fun_ref  bind
 
-for_each:for_each(intVector.begin(),intVector.end(),function);
+for_each: for_each(intVector.begin(),intVector.end(),function);
 
-for(auto& i:type)
+for(auto& i:type)  auto自动类型推断，用于从初始化表达式中推断出变量的数据类型。通过auto的自动类型推断，可以大大简化我们的编程工作。
 
 
