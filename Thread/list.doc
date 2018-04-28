@@ -2,7 +2,8 @@
 
 2.转移线程所有权（还不明白为什么这么做，细节没有看）
 
-3.数据保护：mutex  unique_lock和lock_guard的区别。  
+3.数据保护：mutex  unique_lock和lock_guard的区别。
+  unique_lock相对lock_guard更灵活的地方在于在等待中的线程如果在等待期间需要解锁mutex，并在之后重新将其锁定。而lock_guard却不具备这样的功能。
 
 4.线程条件：condition_variable
 
