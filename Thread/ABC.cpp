@@ -21,7 +21,6 @@ int main() {
     thread B(fun, 1);
     thread C(fun, 2);
     fun(0);
-    //cout << endl;
     B.join();
     C.join();
     return 0;
