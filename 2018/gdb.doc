@@ -12,3 +12,9 @@ CORE文件的GDB调试过程。
 
 
 编译过程中gcc 的选项，显示所有的warning  ： -Wall -Wextra -Wconversion
+
+-Wall：显示所有的
+-Wextra:显示某些特殊的，比如
+        if(i);/*此处的分号*/
+             return 1;
+-Wconversion：显示一些转换的warning 
