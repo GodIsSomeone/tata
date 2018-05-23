@@ -9,3 +9,6 @@ CORE文件的GDB调试过程。
 7.layout显示代码。
 
 还有很多，需要不断总结。
+
+
+编译过程中gcc 的选项，显示所有的warning  ： -Wall -Wextra -Wconversion
