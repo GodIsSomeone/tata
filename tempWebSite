@@ -48,3 +48,6 @@ pstack +进程号 查看相关依赖库
 5.3 将perf.unfold中的符号进行折叠：./stackcollapse-perf.pl perf.unfold &> perf.folded
 
 5.4 最后生成svg图： ./flamegraph.pl perf.folded > perf.svg
+
+
+6.tcpdump 抓包 ：https://www.cnblogs.com/chyingp/p/linux-command-tcpdump.html
