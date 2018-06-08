@@ -51,3 +51,9 @@ pstack +进程号 查看相关依赖库
 
 
 6.tcpdump 抓包 ：https://www.cnblogs.com/chyingp/p/linux-command-tcpdump.html
+
+
+7.gdb调试  https://legacy.gitbook.com/book/wizardforcel/100-gdb-tips/details
+
+
+
