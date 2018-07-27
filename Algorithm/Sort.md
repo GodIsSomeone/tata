@@ -1,5 +1,6 @@
 ##各种排序算法
 ```
+
 class CSort
 {
 public:
@@ -12,30 +13,7 @@ public:
     }
     /*
     第i轮：
-    倒序比较，最后一个如果小，则冒泡交换，否则，下一个比较
-    */
-    void BubbleSort(int arr[], int length)
-    {
-        if (arr == NULL || length == 0) return ;
-
-        for (int i = 0; i< length; i++)
-        {
-            for (int j= length-1; j>i; j--)
-            {
-                if (arr[j]<arr[j-1])
-                {
-                    int temp = arr[j];
-                    arr[j] = arr[j - 1];
-                    arr[j - 1] = temp;
-                }
-            }
-        }
-        printArray(arr, length);
-    }
-    
-    /*
-    第i轮：
-    正序比较，最后一个如果小，则冒泡交换，否则，下一个比较
+    倒叙比较，最后一个如果小，则冒泡交换，否则，下一个比较
     */
     void BubbleSort(int arr[], int length)
     {
@@ -70,6 +48,65 @@ public:
         printArray(arr, length);
     }
 
+    void SelectSort(int arr[], int length)
+    {
+        if (arr == NULL || length == 0) return;
+        for (int i = 0; i < length; i++)
+        {
+            int min = i;
+            for (int j =i+1;j<length;j++)
+            {
+                if (arr[min] > arr[j])
+                {
+                    min = j;//寻找最小值的下标
+                }
+            }
+            swap(arr[min], arr[i]);
+        }
+        printArray(arr, length);
+    }
+
+    /*快速排序*/
+    void QuickHelp(int arr[], int begin, int end)
+    {
+        if (begin < end)
+        {
+            int left = begin, right = end, x = arr[begin];
+            while (left < right)
+            {
+                while (left < right && arr[right] >= x) // 从右向左找第一个小于x的数  
+                {
+                    right--;
+                }
+                if (left < right)
+                {
+                    arr[left] = arr[right];
+                    left++;
+                }
+                while (left < right && arr[left] < x) // 从左向右找第一个大于等于x的数  
+                {
+                    left++;
+                }
+                if (left < right)
+                {
+                    arr[right] = arr[left];
+                    right--;
+                }
+            }
+            arr[left] = x;
+            QuickHelp(arr, begin, left - 1); // 递归调用  
+            QuickHelp(arr, left + 1, end);
+        }
+    }
+
+    void QuickSort(int arr[], int length)
+    {
+        if (arr == NULL || length == 0) return;
+        /*创建大堆，并交换根节点的位置*/
+        QuickHelp(arr, 0, length-1);
+        printArray(arr, length);
+    }
+
     void MaxHeap(int arr[], int start, int end) {
         int leaf = start*2+1;
         while (leaf <= end)
@@ -93,7 +130,8 @@ public:
         }
     }
 
-    void HeapSort(int arr[], int length) {
+    void HeapSort(int arr[], int length) 
+    {
 
         if (arr == NULL || length == 0) return;
         /*创建大堆，并交换根节点的位置*/
@@ -112,12 +150,17 @@ public:
 private:
 };
 
+
 int main() {
     int a[] = { 3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6 };
     int length = sizeof(a) / sizeof(a[0]);
     CSort().BubbleSort(a,length);
     CSort().InsortSort(a,length);
     CSort().HeapSort(a, length);
+    CSort().SelectSort(a, length);
+    CSort().QuickSort(a, length);
     return 0;
 }
+
+
 ```
