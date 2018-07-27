@@ -12,7 +12,7 @@ public:
     }
     /*
     第i轮：
-    倒叙比较，最后一个如果小，则冒泡交换，否则，下一个比较
+    倒序比较，最后一个如果小，则冒泡交换，否则，下一个比较
     */
     void BubbleSort(int arr[], int length)
     {
@@ -27,6 +27,27 @@ public:
                     int temp = arr[j];
                     arr[j] = arr[j - 1];
                     arr[j - 1] = temp;
+                }
+            }
+        }
+        printArray(arr, length);
+    }
+    
+    /*
+    第i轮：
+    正序比较，最后一个如果小，则冒泡交换，否则，下一个比较
+    */
+    void BubbleSort(int arr[], int length)
+    {
+        if (arr == NULL || length == 0) return ;
+
+        for (int i = 0; i< length-1; i++)
+        {
+            for (int j= 0; j < length-1-i; j++)
+            {
+                if (arr[j] > arr[j+1])
+                {
+                    swap(arr[j], arr[j+1]);
                 }
             }
         }
