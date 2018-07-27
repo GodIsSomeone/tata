@@ -36,20 +36,15 @@ public:
     void InsortSort(int arr[], int length)
     {
         if (arr == NULL || length == 0) return;
-
         for (int i = 1; i < length; i++)
         {
-            int tar = arr[i];//保存当前变量
-
+            int cur = arr[i];
             int j = i - 1;
-            if (arr[i] < arr[i-1])
+            for (; j >= 0 && cur < arr[j]; j--)
             {
-                for ( ; j>0; j--)
-                {
-                    arr[j + 1] = arr[j];
-                }
-                arr[j+1] = tar;
+                arr[j + 1] = arr[j];
             }
+            arr[j + 1] = cur;
         }
         printArray(arr, length);
     }
