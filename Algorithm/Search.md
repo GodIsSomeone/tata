@@ -168,7 +168,10 @@ public:
         /*当有多个相同的值的时候，得到的下标不一样*/
         /*插入查找法*/
         //int mid = low + (value - arr[low]) / (arr[high] - arr[low])*(high - low);
-
+        if (low>high)
+        {
+            return -1;
+        }
         /*一般查找法*/
         int mid = low + (high - low) / 2;
 
@@ -197,6 +200,11 @@ public:
                 high = mid - 1;
             }
         }
+        /*没有找到*/
+        if (low > high)
+        {
+            return -1;
+        }
     }
     /*有序数组*/
     int BinarySearch(int arr[], int length, int value)
@@ -204,7 +212,9 @@ public:
         if (arr == NULL || length == 0) return -1;
         int low = 0;
         int high = length - 1;
-        return commonHelper(arr, value, low, high) + 1;
+        int ret = commonHelper(arr, value, low, high);
+        ret = ret > 0 ? ret+1 : -1;
+        return ret;
     }
 
 private:
