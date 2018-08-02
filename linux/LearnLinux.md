@@ -57,3 +57,6 @@ pstack +进程号 查看相关依赖库
 
 7.gdb调试  https://legacy.gitbook.com/book/wizardforcel/100-gdb-tips/details
 
+
+8.时间调整： ntpdate -u 210.72.145.44 :网络时间同步命令  date -s "2015-02-04 16:30:00"
+
