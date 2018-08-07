@@ -140,3 +140,14 @@ public List<Integer> postorderTraversal(TreeNode root) {
 }  
 
 还有一种所谓的Morris遍历方法，没看。不过上述几个办法已经让我学习到了很多
+
+
+    void Mirror(TreeNode *pRoot) {
+        if(pRoot == nullptr) return;
+        TreeNode *tmp = pRoot->left;
+        pRoot->left = pRoot->right;
+        pRoot->right = tmp;
+        Mirror(pRoot->left);
+        Mirror(pRoot->right);
+        
+    }
