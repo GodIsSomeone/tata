@@ -1,5 +1,6 @@
-用辅助栈或者vector都可以实现
-```
+///////用辅助栈或者vector都可以实现
+
+```   
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -37,4 +38,4 @@ public:
         temp->next = NULL;
     }
 };
-```
+```   
