@@ -49,6 +49,7 @@ public:
         }
         helper(root->left, sum-root->val, item, ret);
         helper(root->right, sum-root->val, item, ret);
+        //  作为静态变量存储需要恢复现场
         item.pop_back();//很关键
     }
 };
