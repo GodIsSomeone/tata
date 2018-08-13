@@ -1,3 +1,7 @@
+
+翻转数字    
+
+```   
 class Solution {
     public:
         int reverse(int x) {
@@ -22,3 +26,5 @@ int main(){
     cout << Solution().reverse(i)<<endl;
     return 0;
 }
+
+```
