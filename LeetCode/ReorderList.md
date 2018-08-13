@@ -1,6 +1,6 @@
-///////用辅助栈或者vector都可以实现
+用辅助栈或者vector都可以实现
 
-···   
+```
 
 /**
  * Definition for singly-linked list.
@@ -19,14 +19,18 @@ public:
         }
         vector<ListNode*> vNode;
         ListNode* temp = head;
+        /*所有元素 入 vector*/
         while (temp)
         {
             vNode.push_back(temp);
             temp = temp->next;
         }
+        
+        /*reorder*/
         temp = head;
         int count = 0;
         int length = vNode.size();
+        
         while (count <= length/2)
         {
             ListNode* next = vNode.back();
@@ -39,4 +43,4 @@ public:
         temp->next = NULL;
     }
 };
-···   
+``` 
