@@ -1,4 +1,7 @@
- class Solution {
+ 
+
+```
+class Solution {
  public:
 	 int maxArea(vector<int>& height) 
 	 {
@@ -45,7 +48,7 @@
 
 
 
-搞笑版
+//搞笑版?????高效版！！！！
 
  class Solution {
  public:
@@ -72,3 +75,4 @@
 		 return area;
 	 }
  };
+```
