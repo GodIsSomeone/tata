@@ -1,3 +1,6 @@
+两个数相加很简单，只需要冒泡遍历就行了
+
+```    
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
@@ -37,3 +40,4 @@ int main(){
     }
     return 0;
 }
+```
