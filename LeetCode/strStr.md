@@ -1,3 +1,6 @@
+直接用string的函数进行处理
+
+```
 class Solution {
 public:
     int strStr(string haystack, string needle) {
@@ -18,3 +21,4 @@ int main()
 
 find  和   find_first_of的区别
 find完全匹配，find_first_of部分匹配
+```
