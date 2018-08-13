@@ -1,3 +1,8 @@
+二叉搜索树    
+左子树<根节点<右子树
+中序遍历是有序的
+
+```      
     bool isValidBST(TreeNode* root) {
         TreeNode *tmpNode = NULL;
         return helper(root, tmpNode);
@@ -16,3 +21,5 @@
         tmpNode = root;
         return left && helper(root->right, tmpNode);
     }
+```
+
