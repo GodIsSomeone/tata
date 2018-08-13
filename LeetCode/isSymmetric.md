@@ -1,3 +1,5 @@
+判断是否是对称树。递归判断
+```
 #include "stdafx.h"
 #include <iostream>
 #include <vector>
@@ -51,3 +53,4 @@ int main() {
     cout << Solution().isSymmetric(root) << endl;
     return 0;
 }
+```
