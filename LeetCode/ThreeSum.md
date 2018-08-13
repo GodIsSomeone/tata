@@ -1,4 +1,6 @@
- class Solution {
+相比四数之和，三数相当于去掉了一个外衣
+```
+class Solution {
  public:
      vector<vector<int>> threeSum(vector<int>& nums) {
          sort(nums.begin(), nums.end());
@@ -64,3 +66,4 @@
      //cout << Solution().threeSum(nums)<<endl;
      return 0;
  }
+```   
