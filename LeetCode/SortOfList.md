@@ -1,3 +1,7 @@
+
+链表排序:采用分开排序，然后合并的手段
+
+```    
 #include "stdafx.h"
 #include <iostream>
 #include <vector>
@@ -23,11 +27,14 @@ public:
         }
         ListNode* slow = head;
         ListNode* fast = head;
+        
+        /*快慢指针的用法，fast到结尾，slow到中间*/
         while (fast->next &&fast->next->next)
         {
             fast = fast->next->next;
             slow = slow->next;
         }
+        
         ListNode* rightNode = slow->next;
         slow->next = NULL;
         return mergeList(sortList(head), sortList(rightNode));
@@ -82,3 +89,6 @@ int main() {
     }
     return 0;
 }
+
+```
+
