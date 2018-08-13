@@ -1,3 +1,6 @@
+
+
+```   
 class Solution {
 public:
     ListNode * mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -11,7 +14,7 @@ public:
         {
             return l1;
         }
-
+         /*确定链表头结点，谁小谁是头结点*/      
         if (l1->val < l2->val)
         {
             retList = l1;
@@ -24,6 +27,7 @@ public:
         }
         tempNode = retList;
 
+        
         while (l1 &&  l2)
         {
             if (l1->val < l2->val)
@@ -39,7 +43,7 @@ public:
 
             tempNode = tempNode->next;
         }
-
+        //while中如果没有进行完，则补上
         if (!l1)
         {
             tempNode->next = l2;
@@ -74,3 +78,6 @@ int main() {
     //cout << Solution().threeSum(nums)<<endl;
     return 0;
 }
+
+```         
+
