@@ -1,5 +1,6 @@
-递归
-Path Sum 
+判断是否有路径
+
+```
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -18,9 +19,12 @@ public:
     }
 };
 
+```
 
 PathSum II
+输出路径
 
+```
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -54,5 +58,6 @@ public:
     }
 };
 
+```
 
 
