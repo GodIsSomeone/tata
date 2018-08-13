@@ -10,9 +10,10 @@ public:
         }
         for (int h = 0; h<nums.size() - 3; h++)
         {
-            if (h>0 && nums[h] == nums[h - 1]) continue;
-            if (nums[h] + nums[h + 1] + nums[h + 2] + nums[h + 3]>target) break;
-            if (nums[h] + nums[nums.size() - 3] + nums[nums.size() - 2] + nums[nums.size() - 1]<target) continue;
+            if (h>0 && nums[h] == nums[h - 1]) continue;  //如果有相同的值，则continue
+            if (nums[h] + nums[h + 1] + nums[h + 2] + nums[h + 3]>target) break; //如果大于，直接break，因为vector是有序的
+            /*如果加上最大值后，依旧小于目标值，则继续前进*/
+            if (nums[h] + nums[nums.size() - 3] + nums[nums.size() - 2] + nums[nums.size() - 1]<target) continue; 
 
             for (int i = h + 1; i < nums.size() - 2; i++)
             {
@@ -24,6 +25,7 @@ public:
                 int k = nums.size() - 1;
                 while (j < k)
                 {
+                /*如果相等，则压栈*/
                     if (nums[h] + nums[i] + nums[j] + nums[k] == target)
                     {
                         vector<int> temp;
@@ -33,22 +35,22 @@ public:
                         temp.push_back(nums[k]);
                         res.push_back(temp);
                         cout << nums[h] << "," << nums[i] << "," << nums[j] << "," << nums[k] << endl;
-                        while (j < k && nums[j] == nums[j + 1])
+                        while (j < k && nums[j] == nums[j + 1]) // 相同，则自加
                         {
                             j++;
                         }
-                        while (j < k && nums[k] == nums[k - 1])
+                        while (j < k && nums[k] == nums[k - 1])  //相同，则自减
                         {
                             k--;
                         }
                         j++;
                         k--;
                     }
-                    else if (nums[h] + nums[i] + nums[j] + nums[k] < target)
+                    else if (nums[h] + nums[i] + nums[j] + nums[k] < target) //小于则继续前进
                     {
                         j++;
                     }
-                    else
+                    else  // 大于则右移
                     {
                         k--;
                     }
