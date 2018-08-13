@@ -1,3 +1,7 @@
+
+删除某一个值的结点
+
+```
 #include "stdafx.h"
 #include <iostream>
 #include <vector>
@@ -16,22 +20,15 @@ struct ListNode {
 class Solution
 {
 public:
-    ListNode * removeElements(ListNode* head, int val) {
-        ListNode **pNode = &head;
-        while (*pNode)
-        {
-            ListNode *tempNode = *pNode;
-            if ((*pNode)->val ==val)
-            {
-                *pNode = (*pNode)->next;
-            }
-            else
-            {
-                pNode = &(tempNode->next);
-            }
-            
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode *pseudo_head = new ListNode(0);
+        pseudo_head->next = head;
+        ListNode *cur = pseudo_head;
+        while(cur){
+            if(cur->next && cur->next->val == val)   cur->next = cur->next->next;
+            else    cur = cur->next;
         }
-        return head;
+        return pseudo_head->next;
     }
 };
 
@@ -53,3 +50,4 @@ int main() {
     }
     return 0;
 }
+```
