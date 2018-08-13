@@ -1,3 +1,6 @@
+判断树是否相同，递归判断左右子树（树的最常用操作）
+
+```
 //Definition for a binary tree node.
 struct TreeNode {
     int val;
@@ -23,3 +26,5 @@ public:
         }
     }
 };
+
+```
