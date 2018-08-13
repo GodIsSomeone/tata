@@ -1,3 +1,6 @@
+最短深度    
+递归解决，先判断返回条件，然后递归
+```
 #include "stdafx.h"
 #include <iostream>
 #include <vector>
@@ -53,3 +56,4 @@ int main() {
     cout << Solution().minDepth(root) << endl;
     return 0;
 }
+```
