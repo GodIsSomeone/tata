@@ -1,3 +1,6 @@
+先倒序，然后判断是否相等，相等则为TRUE；否则为FALSE
+
+```
 class Solution {
  public:
 	 bool isPalindrome(int x) {
@@ -41,3 +44,4 @@ class Solution {
      cout << Solution().isPalindrome(i)<<endl;
      return 0;
  }
+```
