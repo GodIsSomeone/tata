@@ -1,3 +1,7 @@
+
+树的遍历，递归操作。
+
+```
 #include "stdafx.h"
 #include <iostream>
 #include <vector>
@@ -38,3 +42,6 @@ int main() {
     cout << Solution().hasPathSum(root,1) << endl;
     return 0;
 }
+
+```   
+
