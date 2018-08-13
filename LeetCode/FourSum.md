@@ -1,11 +1,12 @@
+```   
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums, int target) {
-        sort(nums.begin(), nums.end());
+        sort(nums.begin(), nums.end()); //排序
         vector<vector<int>> res;
         if (nums.size()<4)
         {
-            return res;
+            return res; //如果不满4个直接return 
         }
         for (int h = 0; h<nums.size() - 3; h++)
         {
@@ -72,3 +73,5 @@ int main() {
     //cout << Solution().threeSum(nums)<<endl;
     return 0;
 }
+
+```    
