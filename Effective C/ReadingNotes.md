@@ -11,7 +11,7 @@
 
      
 ## 条款五  了解C++ 默默编写并调用哪些函数。    
-    C++会默认为类构建default构造、析构、copy assignment构造、copy构造函数。
+C++会默认为类构建default构造、析构、copy assignment构造、copy构造函数。
     
 ## 条款六  不想用默认的，就要说啊，不要当渣男。
 
