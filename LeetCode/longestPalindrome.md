@@ -1,3 +1,5 @@
+最长回文
+```
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -48,3 +50,4 @@ int main(){
     cout << Solution().longestPalindrome(s)<<endl;
     return 0;
 }
+```
