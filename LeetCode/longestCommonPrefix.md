@@ -1,4 +1,7 @@
- class Solution {
+最长的公共前缀        
+
+``` 
+class Solution {
  public:
      string longestCommonPrefix(vector<string>& strs) {
          if (strs.size() == 0)
@@ -28,3 +31,5 @@
      cout << Solution().longestCommonPrefix(strs)<<endl;
      return 0;
  }
+ ```     
+ 
