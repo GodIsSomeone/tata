@@ -1,3 +1,5 @@
+
+```    
 ListNode* swapPairs(ListNode* head) {
     ListNode **pp = &head, *a, *b;
     while ((a = *pp) && (b = a->next)) {
@@ -8,8 +10,10 @@ ListNode* swapPairs(ListNode* head) {
     }
     return head;
 }
-
-算法2：
+```       
+     
+算法2：        
+```
     ListNode* swapPairs(ListNode* head) {
         if(head == NULL)
             return NULL;
@@ -22,3 +26,4 @@ ListNode* swapPairs(ListNode* head) {
         
         return next;
     }
+```
