@@ -34,6 +34,8 @@ A.copyTo(G);
 /*二维图像，前面两个参数是行列计数，
 第三个参数 存储元素的数据类型和每个矩阵点的信道数：
           CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number]
+          CV_8UC3就是u8类型，每隔像素点有三个channel。（这个地方官网有一个语法错误，this are  哈哈哈。）
+          The cv::Scalar is four element short vector
 第四个参数是 four element short vector
 */
 Mat M(2,2, CV_8UC3, Scalar(0,0,255));
@@ -41,3 +43,74 @@ M.create(4,4, CV_8UC(2));
 
 ```
 
+## 掩膜处理
+### Mask的作用
+1. 抠图，把需要显示的部分设置成1，其他设置成0 ，保留想要保留的，删除不想保留德就行了。
+2. 凸显某些特征信息，比重设置的大一点就行了
+### Mask的参数
+filter2D，其实从函数名称也可以看出来，并不包含Mask，而是二维过滤的意思。
+```
+CV_EXPORTS_W void filter2D( InputArray src, OutputArray dst, int ddepth,
+                            InputArray kernel, Point anchor = Point(-1,-1),
+                            double delta = 0, int borderType = BORDER_DEFAULT );
+参数三：目标图像的期望深度。也即dstDepth
+参数四：过滤处理内核
+参数五：内核的锚点，锚点的作用暂时搞不清楚
+参数六：内核处理完之后的像素值，再加上delta。
+参数七：像素外推准则。也不太清楚。图像边框类型。
+```
+## 图像操作
+### 获取像素值
+```
+/*Here is an example for a single channel grey scale image (type 8UC1) and pixel coordinates x and y*/
+Scalar intensity = img.at<uchar>(y, x); // 获取某一坐标的强度值
+Scalar intensity = img.at<uchar>(Point(x, y)); //
+
+/*Now let us consider a 3 channel image with BGR color ordering */
+Vec3b intensity = img.at<Vec3b>(y, x);
+uchar blue = intensity.val[0];
+uchar green = intensity.val[1];
+uchar red = intensity.val[2];
+/*浮点型的*/
+Vec3f intensity = img.at<Vec3f>(y, x);
+float blue = intensity.val[0];
+float green = intensity.val[1];
+float red = intensity.val[2];
+
+/*3D模型*/
+vector<Point2f> points;
+//... fill the array
+Mat pointsMat = Mat(points);
+```
+
+### 内存操作
+```
+/*只是引用，并不是直接拷贝内存，所以points的内存要比pointsMat长！*/
+std::vector<Point3f> points;
+Mat pointsMat = Mat(points).reshape(1);// .. fill the array
+/*拷贝内存*/
+Mat img = imread("image.jpg");
+Mat img1 = img.clone();
+/*处理图像时，如果是空，接口会申请内存*/
+Mat img = imread("image.jpg");
+Mat sobelx;
+Sobel(img, sobelx, CV_32F, 1, 0);
+```
+
+### 申请图像
+```
+img = Scalar(0);//得到一个黑色的图像
+
+/*和以前的接口转换*/
+Mat img = imread("image.jpg");
+IplImage img1 = img;
+CvMat m = img;
+
+/*RGB转灰度图*/
+Mat img = imread("image.jpg"); // loading a 8UC3 image
+Mat grey;
+cvtColor(img, grey, COLOR_BGR2GRAY);
+
+/*Change image type from 8UC1 to 32FC1*/
+src.convertTo(dst, CV_32F)
+```
