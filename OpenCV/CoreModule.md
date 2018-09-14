@@ -210,3 +210,6 @@ magI = magI(Rect(0, 0, magI.cols & -2, magI.rows & -2));
 //7. normalize 标准化转换，中间的参数是转换的比例系数。
  normalize(magI, magI, 0, 1, NORM_MINMAX);
 ```
+## XML和YAML的读写 ，没看
+
+## OpenCV版本变化
