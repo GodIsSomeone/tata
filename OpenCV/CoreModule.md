@@ -140,3 +140,73 @@ type dst的深度值，当src1 和src2都有深度的时候，为-1，就是src1
 beta = ( 1.0 - alpha );
 addWeighted( src1, alpha, src2, beta, gamma, type);
 ```
+
+## 改变图像亮度
+
+对每隔像素点进行操作计算，两种基本的增强图像的方法，不能用于栅格图像
+```
+/*线性增强，改变直方图*/
+for( int y = 0; y < image.rows; y++ ) {
+          for( int x = 0; x < image.cols; x++ ) {
+            for( int c = 0; c < 3; c++ ) {
+                new_image.at<Vec3b>(y,x)[c] =
+                  saturate_cast<uchar>( alpha*( image.at<Vec3b>(y,x)[c] ) + beta );
+            }
+          }
+}
+/*伽马校正*/
+    Mat lookUpTable(1, 256, CV_8U);
+    uchar* p = lookUpTable.ptr();
+    for( int i = 0; i < 256; ++i)
+        p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma_) * 255.0);
+    Mat res = img.clone();
+    LUT(img, lookUpTable, res);
+```
+## 接下来的两章是教你怎么画图的，暂时先不看   
+
+## 傅里叶变换
+
+```
+//1. Expand the image to an optimal size
+/*
+
+当图像的大小是2、3、5 的倍数的时候，DFT的性能最优
+getOptimalDFTSize，顾名思义
+copyMakeBorder 卷积边界。把目标图像放在中间或者上下左右，简化边界处理
+copyMakeBorder(InputArray src, OutputArray dst,
+                       int top, int bottom, int left, int right,
+                       int borderType, const Scalar& value = Scalar() );
+*/
+int m = getOptimalDFTSize(I.rows);
+int n = getOptimalDFTSize(I.cols); // on the border add zero values
+copyMakeBorder(I, padded, 0, m - I.rows, 0, n - I.cols, BORDER_CONSTANT, Scalar::all(0));
+
+//2. Make place for both the complex and the real values
+/*
+计算复杂值，合并。
+count 图像的维度
+merge(const Mat* mv, size_t count, OutputArray dst);
+*/
+Mat planes[] = { Mat_<float>(padded), Mat::zeros(padded.size(), CV_32F) };
+Mat complexI;
+merge(planes, 2, complexI);   // Add to the expanded another plane with zeros
+//3.傅里叶变化
+/*傅里叶变换*/
+dft(complexI, complexI);  // this way the result may fit in the source matrix
+//4.Transform the real and complex values to magnitude
+/*转换幅度值*/
+split(complexI, planes);                   // planes[0] = Re(DFT(I), planes[1] = Im(DFT(I))
+magnitude(planes[0], planes[1], planes[0]);// planes[0] = magnitude
+Mat magI = planes[0];
+//5. 切换到对数刻度
+/*切换到对数*/
+magI += Scalar::all(1);                    // switch to logarithmic scale
+log(magI, magI);
+//6. 第一步的时候对图像进行expand，这一步恢复 Crop and rearrange
+// crop the spectrum, if it has an odd number of rows or columns
+magI = magI(Rect(0, 0, magI.cols & -2, magI.rows & -2));
+// rearrange the quadrants of Fourier image  so that the origin is at the image center
+/*.......*/
+//7. normalize 标准化转换，
+ normalize(magI, magI, 0, 1, NORM_MINMAX);
+```
