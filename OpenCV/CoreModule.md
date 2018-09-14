@@ -10,7 +10,8 @@ A = imread(argv[1], IMREAD_COLOR); // here we'll know the method used (allocate 
 Mat B(A);                                 // Use the copy constructor
 C = A;  
 
-/*Their headers are different, however, and making a modification using any of them will affect all the other ones as well*/
+/*Their headers are different, however, and making a modification
+ *using any of them will affect all the other ones as well*/
 /*只是拷贝了对应的地址，实际数据并没有发生变化*/
 Mat D (A, Rect(10, 10, 100, 100) ); // using a rectangle
 Mat E = A(Range::all(), Range(1,3)); // using row and column boundaries
@@ -31,7 +32,8 @@ A.copyTo(G);
 
 ```
 /*二维图像，前面两个参数是行列计数，
-第三个参数 存储元素的数据类型和每个矩阵点的信道数：CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number]
+第三个参数 存储元素的数据类型和每个矩阵点的信道数：
+          CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number]
 第四个参数是 four element short vector
 */
 Mat M(2,2, CV_8UC3, Scalar(0,0,255));
