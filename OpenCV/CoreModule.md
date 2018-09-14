@@ -114,3 +114,29 @@ cvtColor(img, grey, COLOR_BGR2GRAY);
 /*Change image type from 8UC1 to 32FC1*/
 src.convertTo(dst, CV_32F)
 ```
+### 图像可视化
+```
+/*f32类型的show，要转换成u8类型*/
+Mat img = imread("image.jpg");
+Mat grey;
+cvtColor(img, grey, COLOR_BGR2GRAY);
+Mat sobelx;
+Sobel(grey, sobelx, CV_32F, 1, 0);
+double minVal, maxVal;
+minMaxLoc(sobelx, &minVal, &maxVal); //find minimum and maximum intensities
+Mat draw;
+sobelx.convertTo(draw, CV_8U, 255.0/(maxVal - minVal), -minVal * 255.0/(maxVal - minVal));
+namedWindow("image", WINDOW_AUTOSIZE);
+imshow("image", draw);
+waitKey();
+```
+
+## 图像融合
+```
+/*
+dst(I)=saturate(src1(I)∗alpha+src2(I)∗beta+gamma)
+type dst的深度值，当src1 和src2都有深度的时候，为-1，就是src1的深度值。
+*/
+beta = ( 1.0 - alpha );
+addWeighted( src1, alpha, src2, beta, gamma, type);
+```
