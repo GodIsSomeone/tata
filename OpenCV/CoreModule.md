@@ -164,7 +164,7 @@ for( int y = 0; y < image.rows; y++ ) {
 ```
 ## 接下来的两章是教你怎么画图的，暂时先不看   
 
-## 傅里叶变换
+## 傅里叶变换，具体什么用处，暂时没看到
 
 ```
 //1. Expand the image to an optimal size
@@ -207,6 +207,6 @@ log(magI, magI);
 magI = magI(Rect(0, 0, magI.cols & -2, magI.rows & -2));
 // rearrange the quadrants of Fourier image  so that the origin is at the image center
 /*.......*/
-//7. normalize 标准化转换，
+//7. normalize 标准化转换，中间的参数是转换的比例系数。
  normalize(magI, magI, 0, 1, NORM_MINMAX);
 ```
