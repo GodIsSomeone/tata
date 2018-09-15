@@ -3,7 +3,7 @@
 1. blur() 均值去噪声
 
 2. GaussianBlur()高斯滤波        
-   非线性的
+
 3. medianBlur()中值滤波
 
 4. bilateralFilter()双边滤波
@@ -11,4 +11,203 @@
 
 ## 膨胀和腐蚀
 ### dilation
-也是用一个内核kernal
+也是用一个内核kernel 去改变archer的值。不过此处的Archer取整个内核的最大值。然后就会扩大。   
+```
+/*
+参数同下，为什么同下，因为我先写的下面
+*/
+CV_EXPORTS_W void dilate( InputArray src, OutputArray dst, InputArray kernel,
+                          Point anchor = Point(-1,-1), int iterations = 1,
+                          int borderType = BORDER_CONSTANT,
+                          const Scalar& borderValue = morphologyDefaultBorderValue() );
+```
+### erosion
+相反的，此处取的是最小值。
+```
+/*获取kernel单元
+getStructuringElement(int shape, Size ksize, Point anchor = Point(-1,-1));
+shape，形状，圆或方，大小，锚点位置，（-1，-1）指的是中间
+*/
+    Mat element = getStructuringElement(erosion_type,
+        Size(2 * erosion_size + 1, 2 * erosion_size + 1),
+        Point(erosion_size, erosion_size));
+/*
+CV_EXPORTS_W void erode( InputArray src, OutputArray dst, InputArray kernel,
+                         Point anchor = Point(-1,-1), int iterations = 1,
+                         int borderType = BORDER_CONSTANT,
+                         const Scalar& borderValue = morphologyDefaultBorderValue() );
+ iterations 迭代的次数。
+ borderType 老面孔了……
+borderValue 边界值
+*/
+    erode(src, erosion_dst, element);
+```
+## 其他形态学变换
+无非是dilate和erode的反复应用。
+### Opening
+open = dilate（erode(image)）
+### Closing 
+close = erode(dilate(image))
+### Morphological Fradient
+morph = dilate - erode
+### top hat
+tophat = src - open
+### black hat
+blackhat = close - src
+```
+/*
+op : operator ,也就是说选择哪种处理方式
+*/
+CV_EXPORTS_W void morphologyEx( InputArray src, OutputArray dst,
+                                int op, InputArray kernel,
+                                Point anchor = Point(-1,-1), int iterations = 1,
+                                int borderType = BORDER_CONSTANT,
+                                const Scalar& borderValue = morphologyDefaultBorderValue() );
+```
+## Hit-or_Miss
+1. Erode src image A with kernel B1;
+2. Erode the complement of A (A 的补集)with B2
+3. 上述1和2的结果求并集。
+```
+/*
+op的参数变成MORPH_HITMISS
+*/
+ morphologyEx(input_image, output_image, MORPH_HITMISS, kernel);
+```
+## Extract horizontal and vertical lines by using morphological operations
+1. Load Image 加载图片 imread
+2. Grayscale 灰度化
+```
+cvtColor(src, gray, CV_BGR2GRAY);
+```
+3. 灰度图转二值图
+```
+    // Apply adaptiveThreshold at the bitwise_not of gray, notice the ~ symbol
+    adaptiveThreshold(~gray, bw, 255, CV_ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 15, -2);
+```
+4. 提取操作
+```
+/*提取horizontal*/
+    // Specify size on horizontal axis
+    int horizontal_size = horizontal.cols / 30;
+    // Create structure element for extracting horizontal lines through morphology operations
+    Mat horizontalStructure = getStructuringElement(MORPH_RECT, Size(horizontal_size, 1));
+    // Apply morphology operations
+    erode(horizontal, horizontal, horizontalStructure, Point(-1, -1));
+    dilate(horizontal, horizontal, horizontalStructure, Point(-1, -1));
+    
+/*提取vertical*/
+    // Specify size on vertical axis
+    int vertical_size = vertical.rows / 30;
+    // Create structure element for extracting vertical lines through morphology operations
+    Mat verticalStructure = getStructuringElement(MORPH_RECT, Size(1, vertical_size));
+    // Apply morphology operations
+    erode(vertical, vertical, verticalStructure, Point(-1, -1));
+    dilate(vertical, vertical, verticalStructure, Point(-1, -1));
+```
+
+## 图像金字塔
+多分辨率表达图像信息
+```
+/*
+@param dstsize size of the output image.
+@param borderType Pixel extrapolation method
+下同
+ */
+CV_EXPORTS_W void pyrUp( InputArray src, OutputArray dst,
+                         const Size& dstsize = Size(), int borderType = BORDER_DEFAULT );
+*/
+        else if( c == 'i' )
+        { pyrUp( src, src, Size( src.cols*2, src.rows*2 ) );
+            printf( "** Zoom In: Image x 2 \n" );
+        }
+        else if( c == 'o' )
+        { pyrDown( src, src, Size( src.cols/2, src.rows/2 ) );
+            printf( "** Zoom Out: Image / 2 \n" );
+        }
+```
+## 简单的阈值操作
+也即大于某一个值或者在某个范围内即保存，其他情况下赋值为0；就是针对像素值的操作。   
+因为是对像素值直接进行比较，所以是对灰度值进行操作。   
+```
+/*
+@param thresh threshold value.
+@param maxval maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.
+@param type thresholding type (see the cv::ThresholdTypes).
+*/
+ threshold( src_gray, dst, threshold_value, max_BINARY_value,threshold_type );
+```
+更为复杂的，上述是对像素进行操作，如果是对RGB进行操作，同样的道理设定RGB的范围，然后进行截取
+```
+/*
+@param lowerb inclusive lower boundary array or a scalar.
+@param upperb inclusive upper boundary array or a scalar.
+*/
+CV_EXPORTS_W void inRange(InputArray src, InputArray lowerb,
+                          InputArray upperb, OutputArray dst);
+```
+## 自定义过滤器进行图像过滤
+```
+
+    // Initialize arguments for the filter
+    anchor = Point( -1, -1 );
+    delta = 0;
+    ddepth = -1;
+    // Loop - Will filter the image with different kernel sizes each 0.5 seconds
+    int ind = 0;
+    for(;;)
+    {
+        // Update kernel size for a normalized box filter
+        kernel_size = 3 + 2*( ind%5 );
+        kernel = Mat::ones( kernel_size, kernel_size, CV_32F )/ (float)(kernel_size*kernel_size);
+        // Apply filter
+        filter2D(src, dst, ddepth , kernel, anchor, delta, BORDER_DEFAULT );
+        imshow( window_name, dst );
+        char c = (char)waitKey(500);
+        // Press 'ESC' to exit the program
+        if( c == 27 )
+        { break; }
+        ind++;
+    }
+```
+## 为图像添加花边
+属于边缘型功能，后续再看。
+
+## sobel边缘检测算子
+其原理是图像在边界处，灰度会发生变化，周围的导数会发生重大变化，随意通过求出导数变化大的地方保留，就得到了边缘。
+1. 加载图片，去燥，转变成灰度图
+2. sobel操作
+```
+/*
+@param ddepth output image depth, see @ref filter_depths "combinations"; in the case of
+    8-bit input images it will result in truncated derivatives.
+@param dx order of the derivative x.也就是X方向，
+@param dy order of the derivative y.或者是Y方向，
+@param ksize size of the extended Sobel kernel; it must be 1, 3, 5, or 7.
+@param scale optional scale factor for the computed derivative values; by default, no scaling is
+applied (see cv::getDerivKernels for details).
+@param delta optional delta value that is added to the results prior to storing them in dst.
+@param borderType pixel extrapolation method, see cv::BorderTypes
+@sa  Scharr, Laplacian, sepFilter2D, filter2D, GaussianBlur, cartToPolar
+ */
+CV_EXPORTS_W void Sobel( InputArray src, OutputArray dst, int ddepth,
+                         int dx, int dy, int ksize = 3,
+                         double scale = 1, double delta = 0,
+                         int borderType = BORDER_DEFAULT );
+```
+3. 转换成CV_8U图像
+```
+/*
+@param alpha optional scale factor.
+@param beta optional delta added to the scaled values.
+@sa  Mat::convertTo, cv::abs(const Mat&)
+*/
+CV_EXPORTS_W void convertScaleAbs(InputArray src, OutputArray dst,
+                                  double alpha = 1, double beta = 0);
+```
+4. 增加梯度
+```
+  addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+```
+
+
