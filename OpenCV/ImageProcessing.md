@@ -210,4 +210,72 @@ CV_EXPORTS_W void convertScaleAbs(InputArray src, OutputArray dst,
   addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
 ```
 
+## laplace算子
+因为sobel算子在面对一些左右求导为0的情况，不能很好地识别边缘检测，因此使用laplace算子。
+1. 加载图片，高斯去噪声，转变成灰度图，这一步和sobel算子是一样的。
+2. laplace操作，具体参数和sobel算子是一样的
+```
+ Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
+```
+3. 转变成灰度图，显示，这一步和laplace也是一样的。
+
+## canny边缘检测
+相较于sobel算子，进行细化，得到更加细化的边缘。
+步骤：
+1. 高斯模糊，取出噪声，降低伪边缘的识别；但是图像的边缘信息也是高频信号，高斯模糊的半径选择很重要，过大的半径容易让一些弱边缘检测不到。
+2. 计算梯度幅值和方向。使用sobel算子计算。边缘粗大明亮。
+3. 非最大值抑制。边缘细化。保留局部最大梯度抑制所有其他梯度值，只保留梯度变化中最锐利的位置。（1）比较当前点的梯度强度和政府梯度方向点的梯度强度，（2）如果当前点的梯度和同方向的其他点的梯度强度比较是最大，保留。否则设为0；——————这部分看不太懂。
+4. 双阈值。高阈值和低阈值。大于高阈值保留为强边缘点，小于则置为0；之间的点，为弱边缘点。
+5. 滞后边界跟踪，如果弱边缘点的8联通领域像素，只要有强边缘点存在，那么这个弱边缘点被认为是边缘保留下来。
+代码过程：
+1. 加载图片，转换成灰度图，滤波。和sobel边缘检测是一样的过程。
+2. Canny检测
+```
+@param image 8-bit input image.
+@param edges output edge map; single channels 8-bit image, which has the same size as image .
+@param threshold1 first threshold for the hysteresis procedure.低阈值
+@param threshold2 second threshold for the hysteresis procedure.高阈值
+@param apertureSize aperture size for the Sobel operator.内核大小
+@param L2gradient a flag,梯度设置 ).
+ */
+CV_EXPORTS_W void Canny( InputArray image, OutputArray edges,
+                         double threshold1, double threshold2,
+                         int apertureSize = 3, bool L2gradient = false );
+```
+3. 拷贝图像，显示
+```
+ dst = Scalar::all(0);
+ src.copyTo( dst, detected_edges);
+```
+## Hough变换，霍夫变换
+对于检测标准的规则图形有很大的优势，对于圆，直线等图形，检测效果应该比较好。具体算法没看太懂。
+1. 加载图片，灰度图。
+2. Canny检测
+3. HoughLines基本检测
+```
+    // Standard Hough Line Transform
+  vector<Vec2f> lines; // will hold the results of the detection
+  HoughLines(dst, lines, 1, CV_PI/180, 150, 0, 0 ); // runs the actual detection
+
+@param rho. 图像计算分辨率。
+@param theta。弧度分辨率。
+@param threshold。可以投票的线的阈值
+CV_EXPORTS_W void HoughLines( InputArray image, OutputArray lines,
+                              double rho, double theta, int threshold,
+                              double srn = 0, double stn = 0,
+                              double min_theta = 0, double max_theta = CV_PI );
+```
+4. Probabilistic Hough Line Transform，概率Hough线变换
+```
+    // Probabilistic Line Transform
+    vector<Vec4i> linesP; // will hold the results of the detection
+    HoughLinesP(dst, linesP, 1, CV_PI/180, 50, 50, 10 ); // runs the actual detection
+    
+@minLinLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
+@maxLineGap: The maximum gap between two points to be considered in the same line.
+CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
+                               double rho, double theta, int threshold,
+                               double minLineLength = 0, double maxLineGap = 0 );
+```
+5. 显示图像。
 
