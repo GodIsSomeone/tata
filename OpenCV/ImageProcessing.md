@@ -279,4 +279,14 @@ CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
                                double minLineLength = 0, double maxLineGap = 0 );
 ```
 5. 显示图像。
+ 
+## Hough Circle Transform  圆检测，和直线检测差不多。
+
+
+## Remapping 
+对图像进行翻转，重映射，可能不是点到点的映射，中间或许会经过插值变化。
+```
+
+
+```
 
