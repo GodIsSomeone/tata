@@ -267,11 +267,12 @@ CV_EXPORTS_W void HoughLines( InputArray image, OutputArray lines,
 ```
 4. Probabilistic Hough Line Transform，概率Hough线变换
 ```
-    // Probabilistic Line Transform
-    vector<Vec4i> linesP; // will hold the results of the detection
-    HoughLinesP(dst, linesP, 1, CV_PI/180, 50, 50, 10 ); // runs the actual detection
+// Probabilistic Line Transform
+vector<Vec4i> linesP; // will hold the results of the detection
+HoughLinesP(dst, linesP, 1, CV_PI/180, 50, 50, 10 ); // runs the actual detection
     
-@minLinLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
+@minLinLength: The minimum number of points that can form a line.
+               Lines with less than this number of points are disregarded.
 @maxLineGap: The maximum gap between two points to be considered in the same line.
 CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
                                double rho, double theta, int threshold,
