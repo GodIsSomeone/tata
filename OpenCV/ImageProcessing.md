@@ -289,4 +289,73 @@ CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
 
 
 ```
+## Affine Transformation 仿射变换
+在几何中，一个向量空间进行一次线性变换并街上一个平移，变换成另一个向量空间。
+也是变换图像的一种，不过可以更加自由变形，当时学的线性代数都还给老师了……
+
+## Histogram 直方图
+根据划分的区间，建立直方图。达到均衡的目的。
+### 直方图均衡化
+这种方法通常用来增加许多图像的全局对比度，尤其是当图像的有用数据的对比度相当接近的时候。通过这种方法，亮度可以更好地在直方图上分布。这样就可以用于增强局部的对比度而不影响整体的对比度，直方图均衡化通过有效地扩展常用的亮度来实现这种功能。
+看了半天维基百科终于看懂了
+直方图均衡化需要对灰度图进行处理。
+```
+    src = imread("../data/lena.jpg", IMREAD_COLOR);
+    cvtColor(src, src, COLOR_BGR2GRAY);
+    equalizeHist(src, dst);
+```
+
+### 直方图计算
+1. 读入jpg图像，因为是对RGB进行分析，因此需要读入RGB属性。
+2. Separate the source image in its three R,G and B planes。
+```
+vector<Mat> bgr_planes;
+/** @overload
+@param m input multi-channel array.
+@param mv output vector of arrays; the arrays themselves are reallocated, if needed.
+*/
+CV_EXPORTS_W void split(InputArray m, OutputArrayOfArrays mv);
+split( src, bgr_planes );
+```
+3. 针对RGB分别进行计算直方图
+```
+    int histSize = 256; // 设立最大值，此处最好设置成宏
+    float range[] = { 0, 256 };
+    const float* histRange = { range };
+    bool uniform = true; bool accumulate = false;
+    Mat b_hist, g_hist, r_hist;
+
+    calcHist(&bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate);
+    calcHist(&bgr_planes[1], 1, 0, Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate);
+    calcHist(&bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+CV_EXPORTS void calcHist( const Mat* images, int nimages,
+                          const int* channels, InputArray mask,
+                          OutputArray hist, int dims, const int* histSize,
+                          const float** ranges, bool uniform = true, bool accumulate = false );
+```
+4. 展示直方图
+```
+/*创建展示图像*/
+// Draw the histograms for R, G and B
+int hist_w = 512; int hist_h = 400;
+int bin_w = cvRound( (double) hist_w/histSize );
+Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
+/*标准化，确保直方图的值都在范围内*/
+normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+/*绘画直方图*/
+for( int i = 1; i < histSize; i++ )
+{
+    line( histImage, Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ) ,
+                     Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
+                     Scalar( 255, 0, 0), 2, 8, 0  );
+  }
+  /*展示*/
+  imshow();
+```
+### 直方图对比
+对比两个图像的直方图匹配程度。
+
+## 反向投影
+计算一个图形的直方图模型，对比图像特征。
 
