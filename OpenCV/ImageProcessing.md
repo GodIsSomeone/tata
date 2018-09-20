@@ -295,6 +295,7 @@ CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
 
 ## Histogram 直方图
 根据划分的区间，建立直方图。达到均衡的目的。
+
 ### 直方图均衡化
 这种方法通常用来增加许多图像的全局对比度，尤其是当图像的有用数据的对比度相当接近的时候。通过这种方法，亮度可以更好地在直方图上分布。这样就可以用于增强局部的对比度而不影响整体的对比度，直方图均衡化通过有效地扩展常用的亮度来实现这种功能。
 看了半天维基百科终于看懂了
@@ -358,4 +359,108 @@ for( int i = 1; i < histSize; i++ )
 
 ## 反向投影
 计算一个图形的直方图模型，对比图像特征。
+
+## 找到图像轮廓
+1. 加载图片，转换成为灰度图，并进行滤波，显示出来
+```
+    src = imread(imageName, IMREAD_COLOR);
+    cvtColor(src, src_gray, COLOR_BGR2GRAY);
+    blur(src_gray, src_gray, Size(3, 3));
+```
+2. Canny角点检测，获取图像轮廓
+```
+  Canny( src_gray, canny_output, thresh, thresh*2, 3 );
+  findContours( canny_output, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
+
+@param hierarchy Optional output vector.包含图像拓扑信息
+@param mode Contour retrieval mode, see cv::RetrievalModes
+@param method Contour approximation method, see cv::ContourApproximationModes
+findContours( InputOutputArray image, OutputArrayOfArrays contours,
+                              OutputArray hierarchy, int mode,
+                              int method, Point offset = Point());
+```
+3. 绘图，将轮廓信息绘制出来，并显示
+```
+  Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+  for( size_t i = 0; i< contours.size(); i++ )
+     {
+       Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+       drawContours( drawing, contours, (int)i, color, 2, 8, hierarchy, 0, Point() );
+     }
+
+@param contourIdx Parameter indicating a contour to draw. If it is negative, all the contours are drawn.
+@param color Color of the contours.
+@param thickness Thickness of lines the contours are drawn with. If it is negative (for example,
+thickness=CV_FILLED ), the contour interiors are drawn.
+@param lineType Line connectivity. See cv::LineTypes.
+@param hierarchy Optional information about hierarchy. It is only needed if you want to draw only
+some of the contours (see maxLevel ).
+CV_EXPORTS_W void drawContours( InputOutputArray image, InputArrayOfArrays contours,
+                              int contourIdx, const Scalar& color,
+                              int thickness = 1, int lineType = LINE_8,
+                              InputArray hierarchy = noArray(),
+                              int maxLevel = INT_MAX, Point offset = Point() );
+```
+
+## Convex Hull 凸壳
+与上述做法思路是基本一样的。不过是使用凸壳的做法获取边界
+
+## Creating Bounding boxes and circles for contours为轮廓创建边界和圆圈。
+1. 获取图像，转成灰度图，进行滤波；
+2. 获得二值图像，获取轮廓
+```
+ threshold( src_gray, threshold_output, thresh, 255, THRESH_BINARY );
+findContours( threshold_output, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
+```
+3. 对每一个轮廓，使用近似算法，精度±3范围内，弧线必须闭合。然后我们获得一个矩形，保存。然后找到多边形的最接近原，保存。
+```
+  for( size_t i = 0; i < contours.size(); i++ )
+  {
+    approxPolyDP( contours[i], contours_poly[i], 3, true );//近似算法
+    /*计算点集的边界矩形*/
+    boundRect[i] = boundingRect( contours_poly[i] );//矩形轮廓
+    minEnclosingCircle( contours_poly[i], center[i], radius[i] );//最接近圆
+  }
+  
+void cv::approxPolyDP	(	InputArray 	curve, //input 2D point in vector or Mat
+OutputArray 	approxCurve,//output,same with input
+double 	epsilon,//精度，和原始图片的最大距离
+bool 	closed  //原始图片是否绘制，如果是TRUE，就不绘制。
+)
+	
+```
+4. 创建空图，绘制，并显示。
+```
+  for( size_t i = 0; i< contours.size(); i++ )
+  {
+    Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+    drawContours( drawing, contours_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+    rectangle( drawing, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0 );
+    circle( drawing, center[i], (int)radius[i], color, 2, 8, 0 );
+  }
+```
+
+## Creating Bounding rotated boxes and ellipses for contours 旋转轮廓的边界和圆圈
+和上述没有什么区别，不过就是图片是旋转过的。主要区别就是绘制的时候，变了一个获取的形式和绘制的方法。
+```
+  for( size_t i = 0; i < contours.size(); i++ )
+     { minRect[i] = minAreaRect( contours[i] );
+       if( contours[i].size() > 5 )
+         { minEllipse[i] = fitEllipse( contours[i] ); }
+     }
+  Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
+  for( size_t i = 0; i< contours.size(); i++ )
+     {
+       Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+       // contour
+       drawContours( drawing, contours, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+       // ellipse
+       ellipse( drawing, minEllipse[i], color, 2, 8 );
+       // rotated rectangle
+       Point2f rect_points[4]; minRect[i].points( rect_points );
+       for( int j = 0; j < 4; j++ )
+          line( drawing, rect_points[j], rect_points[(j+1)%4], color, 1, 8 );
+     }
+```
+
 
