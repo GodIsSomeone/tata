@@ -297,7 +297,8 @@ CV_EXPORTS_W void HoughLinesP( InputArray image, OutputArray lines,
 根据划分的区间，建立直方图。达到均衡的目的。
 
 ### 直方图均衡化
-这种方法通常用来增加许多图像的全局对比度，尤其是当图像的有用数据的对比度相当接近的时候。通过这种方法，亮度可以更好地在直方图上分布。这样就可以用于增强局部的对比度而不影响整体的对比度，直方图均衡化通过有效地扩展常用的亮度来实现这种功能。
+这种方法通常用来增加许多图像的全局对比度，尤其是当图像的有用数据的对比度相当接近的时候。通过这种方法，亮度可以更好地在直方图上分布。
+这样就可以用于增强局部的对比度而不影响整体的对比度，直方图均衡化通过有效地扩展常用的亮度来实现这种功能。
 看了半天维基百科终于看懂了
 直方图均衡化需要对灰度图进行处理。
 ```
@@ -462,5 +463,10 @@ bool 	closed  //原始图片是否绘制，如果是TRUE，就不绘制。
           line( drawing, rect_points[j], rect_points[(j+1)%4], color, 1, 8 );
      }
 ```
+
+## Image Moments  轮廓识别
+## Point Polygon Test ，多边形点测试
+## Image Segmentation with Distance Transform and Watershed Algorithm
+基于距离变换和分水岭算法的图像分割
 
 
