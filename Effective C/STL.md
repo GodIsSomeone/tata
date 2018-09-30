@@ -74,8 +74,8 @@ assign(begin(),end());
 ## 条款12：STL中的线程安全
 使用代码块{...........}在代码块中调用锁，资源初始化之后释放，
 
-# 条款13：string 和 vector
-## 尽量使用vector和string代替动态分配的数组
+# string 和 vector
+## 条款13：尽量使用vector和string代替动态分配的数组
 
 ## 条款14：使用reserve重新避免不必要的内存分配。
 string和vector的内存重新分配方法，申请一块新的地址，大小以2的倍数增长。拷贝内容，销毁原有内存。
