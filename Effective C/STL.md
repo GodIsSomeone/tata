@@ -71,4 +71,48 @@ assign(begin(),end());
 ## 条款9：仔细选择删除方式
 
 
+## 条款12：STL中的线程安全
+使用代码块{...........}在代码块中调用锁，资源初始化之后释放，
 
+# 条款13：string 和 vector
+## 尽量使用vector和string代替动态分配的数组
+
+## 条款14：使用reserve重新避免不必要的内存分配。
+string和vector的内存重新分配方法，申请一块新的地址，大小以2的倍数增长。拷贝内容，销毁原有内存。
+使用reserve将内存设置的足够大，避免内存重新分配，带来较大的开销。
+
+## 条款15：小心string实现的多样化。（还需要再详细看看）
+包括string实现的多样化，配置器、大小、内容引用等因素。
+
+## 条款16：将string和vector数据传给遗留的API   
+v.begin()返回的是迭代器类型，&v[0]是指针，二者不能通用。等同于&（*v.begin()）
+
+## 条款17：使用swap清除不必要内存。
+```
+void testVec() 
+{
+    vector<int> vec;
+    vec.reserve(10);
+    for (int i = 0; i < 10; i++)
+    {
+        vec.push_back(i);
+    }
+    vector<int> vecCpy(vec);
+    for (int i = 0; i < 2000; i++)
+    {
+        vec.push_back(i);
+    }
+    cout << "cap: " << vec.capacity() << ", " << vecCpy.capacity() << endl;
+
+    vec.swap(vecCpy);
+    cout << "cap: " << vec.capacity() << ", " << vecCpy.capacity() << endl;
+
+    return;
+}
+```
+
+## 条款18：避免使用vector<bool>.
+vector<bool>并不是容器，只不过是披着vector的皮而已。
+  vector<bool>不满足vector的一些必要条件，比如bool *p= &v[0]是错误的。
+  替代品：deque<bool>,bitset
+  
