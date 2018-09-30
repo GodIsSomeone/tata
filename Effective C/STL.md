@@ -132,4 +132,40 @@ int main ()
   return 0;
 }
   ```
-  
+# 关联容器
+
+## 条款19： 等价和相等之间的区别。
+通过自定义，等价和相等之间是不同的。set中是通过less的手段进行比较的。
+## 条款20： 为指针的关联容器指定比较类型。
+## 条款21： 永远让比较函数返回false
+```
+bool fncomp(int lhs, int rhs) { return lhs < rhs; }
+
+struct classcomp {
+    bool operator() (const int& lhs, const int& rhs) const
+    {
+        return lhs < rhs;
+    }
+};
+
+int main()
+{
+    set<int> first;                           // empty set of ints
+
+    int myints[] = { 10,20,30,40,50 };
+    set<int> second(myints, myints + 5);        // range
+
+    set<int> third(second);                  // a copy of second
+
+    set<int> fourth(second.begin(), second.end());  // iterator ctor.
+
+    set<int, classcomp> fifth;                 // class as Compare
+
+    bool(*fn_pt)(int, int) = fncomp;
+    set<int, bool(*)(int, int)> sixth(fn_pt);  // function pointer as Compare
+
+    return 0;
+}
+```
+
+## 条款22：避免原地直接修改map和set的键
