@@ -115,4 +115,21 @@ void testVec()
 vector<bool>并不是容器，只不过是披着vector的皮而已。
   vector<bool>不满足vector的一些必要条件，比如bool *p= &v[0]是错误的。
   替代品：deque<bool>,bitset
+  ```
+  // bitset::count
+#include <iostream>       // std::cout
+#include <string>         // std::string
+#include <bitset>         // std::bitset
+
+int main ()
+{
+  std::bitset<8> foo (std::string("10110011"));
+
+  std::cout << foo << " has ";
+  std::cout << foo.count() << " ones and ";
+  std::cout << (foo.size()-foo.count()) << " zeros.\n";
+
+  return 0;
+}
+  ```
   
