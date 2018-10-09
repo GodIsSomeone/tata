@@ -169,3 +169,10 @@ int main()
 ```
 
 ## 条款22：避免原地直接修改map和set的键
+
+
+## 条款23：考虑用有序vector代替关联容器
+感觉是在说尽量自己写compare函数，提交效率，减少内存占用。
+
+## 条款24：map::operator[] 和map::insert之间的选择
+处于对效率的考虑，当map添加一个元素的时候，insert比operator[]更好；从效率和美学考虑，当更新map中的元素时，operator[]更好
