@@ -176,3 +176,66 @@ int main()
 
 ## 条款24：map::operator[] 和map::insert之间的选择
 处于对效率的考虑，当map添加一个元素的时候，insert比operator[]更好；从效率和美学考虑，当更新map中的元素时，operator[]更好
+
+## 条款25：熟悉非标准散列容器
+
+# 迭代器
+
+## 尽量使用iterator代替const_iterator const_reverse_iterator 和 reverse_iterator等类型。
+因为一般的函数接口参数使用的是iterator，这个可以根据情况来。而且iterator可以转换成其他其他类型。减少混用不同类型的迭代器的机会。
+可以使用映射的方法强转     
+static_cast<constIter>(iter)
+
+## 条款27：const_iterator转换为iterator
+
+```
+list<int>::iterator iter = lst.begin();
+list<int>::const_iterator ci;
+advance(iter, distance<list<int>::const_iterator>(iter, ci));
+  /*
+   distance(iter, ci)
+   diatance的操作要求两个迭代器的类型是一致的，所以此处用了强转
+  效率问题。如果是随机访问的迭代器（vector string deque），则复杂度是常数时间，如果是双向迭代器，则是线性时间
+  */
+```
+  
+## 条款28：通过reverse_iterator的base得到iterator
+操作的时候注意如何处理base()得到的iterator，因为涉及到移动和删除操作。
+
+## 条款29：需要一个一个字符输入的时候可以考虑一下istreambuf_iterator
+
+```
+ifstream inputFile("data.txt");
+inputFile.unset(ios::skipws);//关闭inputFile的忽略空格标志
+stringfileData((istream_iterator<char>(inputFile)), istream_iterator<char>());
+```
+拷贝速度不够快，需要不停的重置标志位
+```
+ifstream inputFile("data.txt");//此处不需要忽略相关空格标志
+stringfileData((istreambuf_iterator<char>(inputFile)), istreambuf_iterator<char>());
+```
+但是测试下来，并没有什么区别，可能是文件不够大。
+修改了文件的大小，确实差别挺大的。
+```
+DWORD k = ::GetTickCount(); //获取毫秒级数目
+ifstream inputFile("./data.txt");
+inputFile.unsetf(ios::skipws);//关闭inputFile的忽略空格标志
+string fileData((istream_iterator<char>(inputFile)), istream_iterator<char>());
+cout << "istream_iterator:" << GetTickCount() - k << endl; //获取毫秒级数目
+
+DWORD k2 = ::GetTickCount(); //获取毫秒级数目
+ifstream inputFile2("./data.txt");
+string fileData2((istreambuf_iterator<char>(inputFile2)), istreambuf_iterator<char>());
+cout << "istreambuf_iterator:" << GetTickCount() - k2 << endl; //获取毫秒级数目
+
+/*
+istream_iterator:953   
+istreambuf_iterator:656       
+*/
+```
+
+
+# 算法
+
+
+
