@@ -181,8 +181,8 @@ int main()
 
 # 迭代器
 
-## 尽量使用iterator代替const_iterator const_reverse_iterator 和 reverse_iterator等类型。
-因为一般的函数接口参数使用的是iterator，这个可以根据情况来。而且iterator可以转换成其他其他类型。减少混用不同类型的迭代器的机会。
+## 条款26：尽量使用iterator代替const_iterator const_reverse_iterator 和 reverse_iterator等类型。
+因为一般函数接口参数使用的是iterator，这个可以根据情况来。而且iterator可以转换成其他其他类型。减少混用不同类型的迭代器的机会。
 可以使用映射的方法强转     
 static_cast<constIter>(iter)
 
@@ -236,6 +236,69 @@ istreambuf_iterator:656
 
 
 # 算法
+
+## 条款30：确保目标操作区域足够大，避免一些误操作。
+insert的时候，是front_insert还是back_insert,还是直接insert
+
+## 条款31：了解你的排序选择。
+排序的算法有很多，不止sort，还有stable_sort,partial_sort,nth_element，根据不同情况，选择自己需要的算法。
+vector、string、deque和数组，完全排序，使用sort或者stable_sort.
+只需要排前N个元素，用partial_sort。
+只需要鉴别出前N个元素，不用排序，只需要nth_element即可。
+标准序列容器分割，满足某个条件（大于X），则需要用partial或者stable_partial。
+如果是list，可以用自带的sort。（这里没有仔细看）
+
+nth_element选出前n个数据，但是很奇怪的一点是，使用vs2015，会把顺序给你排好的，但是linux下就不排序。很奇怪好吧
+
+```
+bool myfunction(int i, int j) { return (i > j); }
+
+int testnth() {
+    vector<int> myvector;
+
+    // set some values:
+    for (int i = 0; i < 50; i++) myvector.push_back(i);   // 1 2 3 4 5 6 7 8 9
+
+    random_shuffle(myvector.begin(), myvector.end());
+    // print out content:
+    cout << "random_shuffle myvector contains:";
+    for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+        cout << ' ' << *it;
+    cout << '\n';
+    nth_element(myvector.begin(), myvector.begin() + 10, myvector.end());
+
+    cout << "default comparison  myvector contains:"<<endl;
+    for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+        cout << ' ' << *it;
+    cout << endl;
+
+    // using function as comp
+    nth_element(myvector.begin(), myvector.begin() + 10, myvector.end(), myfunction);
+
+
+    // print out content:
+    cout << "using function :"<<endl;
+    for (vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+        cout << ' ' << *it;
+    cout << endl;
+
+    return 0;
+}
+```
+
+## 条款32：元素删除，remove后跟erase。
+remove不改变容器的size。
+```
+    vector<int> vec;
+    vec.reserve(10);
+    for (int i = 0; i < 10; i++)
+    {
+        vec.push_back(i);
+    }
+    cout << "size: " << vec.size() << endl;  // 10
+    remove(vec.begin(), vec.end(), 5);
+    cout << "size: " << vec.size() << endl;  // 10
+```
 
 
 
