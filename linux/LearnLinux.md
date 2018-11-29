@@ -60,5 +60,9 @@ pstack +进程号 查看相关依赖库
 
 8.时间调整： ntpdate -u 210.72.145.44 :网络时间同步命令  date -s "2015-02-04 16:30:00"
 
-9.防火墙  状态查看service iptables status  防火墙关闭  chkconfig iptables off
+9.防火墙  状态查看service iptables status  防火墙关闭  chkconfig iptables off    
+
+10.dmidecode |grep -A16 "Memory Device$" 查看内存条实际个数        
+          
+11. 查看内存 cat /proc/meminfo   
 
