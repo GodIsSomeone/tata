@@ -7,3 +7,5 @@
 3. C++堆栈指引 https://www.cnblogs.com/Binhua-Liu/archive/2010/08/24/1803095.html
 
 4. volatile关键字 http://www.cnblogs.com/yc_sunniwell/archive/2010/07/14/1777432.html
+
+5. 虚函数表 https://www.cnblogs.com/chinazhangjie/archive/2012/07/11/2586535.html
