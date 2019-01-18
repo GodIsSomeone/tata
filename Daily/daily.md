@@ -9,3 +9,6 @@
 4. volatile关键字 http://www.cnblogs.com/yc_sunniwell/archive/2010/07/14/1777432.html
 
 5. 虚函数表 https://www.cnblogs.com/chinazhangjie/archive/2012/07/11/2586535.html
+
+
+6. 智能指针 https://www.cnblogs.com/TenosDoIt/p/3456704.html  http://www.cnblogs.com/lanxuezaipiao/p/4132096.html
