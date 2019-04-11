@@ -1,15 +1,13 @@
 1. du  du命令也是查看使用空间的，但是与df命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看，还是和df命令有一些区别的。
 
-   df -h.df命令用于显示磁盘分区上的可使用的磁盘空间。默认显示单位为KB。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等
-
-
+   df -h. df命令用于显示磁盘分区上的可使用的磁盘空间。默认显示单位为KB。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等   
    scp   scp -r -P 22223 root@43.224.34.73:/home/lk /root    -r  递归复制整个目录。
 
 
    history history命令用于显示指定数目的指令命令，读取历史命令文件中的目录到历史命令缓冲区和将历史命令缓冲区中的目录写入命令文件。
 
 
-2.CPU工作模式及调频
+2. CPU工作模式及调频
 http://www.simlinux.com/2017/03/24/cpu-model-freq.html CPU工作模式及调频
 
 ondemand	按需快速动态调整CPU频率， 一有cpu计算量的任务，就会立即达到最大频率运行，等执行完毕就立即回到最低频率（阙值为 95%
@@ -26,14 +24,14 @@ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
 echo 'performance' |tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
 
-3.linux 的日常
+3. linux 的日常
 
 errno
 
 文件相关操作，解压。压缩。打包。删除
 pstack +进程号 查看相关依赖库
 
-45.linux火焰图：http://www.cnblogs.com/happyliu/p/6142929.html
+5. linux火焰图：http://www.cnblogs.com/happyliu/p/6142929.html
 
    Flame Graph项目位于GitHub上：https://github.com/brendangregg/FlameGraph
    可以用git将其clone下来：git clone https://github.com/brendangregg/FlameGraph.git
