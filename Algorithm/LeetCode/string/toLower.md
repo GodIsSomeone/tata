@@ -9,7 +9,8 @@ class Solution {
       c = tolower(c);
     }
     /*使用算法*/
-    transform(str.begin(), str.end(), str.begin(), ::tolower); /*include 头文件 algorithm.h*/
+    /*include 头文件 algorithm.h*/
+    transform(str.begin(), str.end(), str.begin(), ::tolower); 
     
     return str;
   }

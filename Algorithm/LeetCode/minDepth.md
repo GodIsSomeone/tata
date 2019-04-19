@@ -1,5 +1,7 @@
-最短深度    
+#### 最短深度    
+
 递归解决，先判断返回条件，然后递归
+
 ```
 #include "stdafx.h"
 #include <iostream>
@@ -42,7 +44,6 @@ public:
         else
         {
             return 1 + min(minDepth(root->right), minDepth(root->left));
-                 
         }
     }
 };

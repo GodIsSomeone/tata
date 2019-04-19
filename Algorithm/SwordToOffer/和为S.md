@@ -23,8 +23,8 @@ public:
                 res.push_back(array[j]);
                 break;
             }
-            while (i<j&&array[i] + array[j]>sum) j--;
-            while (i < j&&array[i] + array[j] < sum) i++;
+            while (i < j && array[i] + array[j] > sum) j--;
+            while (i < j && array[i] + array[j] < sum) i++;
         }
         return res;
     }

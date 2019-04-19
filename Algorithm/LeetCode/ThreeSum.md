@@ -1,10 +1,13 @@
-相比四数之和，三数相当于去掉了一个外衣
+#### 相比四数之和，三数相当于去掉了一个外衣
+
 ```
 class Solution {
  public:
      vector<vector<int>> threeSum(vector<int>& nums) {
+         //先排序
          sort(nums.begin(), nums.end());
          vector<vector<int>> res;
+
          for (int i = 0; i < nums.size(); ++i)
          {
              if (nums[i] > 0)

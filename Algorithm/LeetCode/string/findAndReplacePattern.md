@@ -1,4 +1,5 @@
-查找统一结构的字符串，比如abb类型的
+#### 查找统一结构的字符串，比如abb类型的
+
 ```
 class Solution {
 public:

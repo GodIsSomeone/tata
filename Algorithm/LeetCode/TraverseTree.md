@@ -1,8 +1,8 @@
-/*    
-原题链接: http://oj.leetcode.com/problems/binary-tree-inorder-traversal/ 
-通常，实现二叉树的遍历有两个常用的方法：一是用递归，二是使用栈实现的迭代方法。下面分别介绍。
-递归应该最常用的算法，相信大家都了解，算法的时间复杂度是O(n), 而空间复杂度则是递归栈的大小，即O(logn)。代码如下：    
-*/   
+#### 中序
+    原题链接: http://oj.leetcode.com/problems/binary-tree-inorder-traversal/   
+    通常，实现二叉树的遍历有两个常用的方法：一是用递归，二是使用栈实现的迭代方法。下面分别介绍。  
+    递归应该最常用的算法，相信大家都了解，算法的时间复杂度是O(n), 而空间复杂度则是递归栈的大小，即O(logn)。  
+
 
 ```
 public ArrayList<Integer> inorderTraversal(TreeNode root) {  
@@ -29,6 +29,7 @@ private void helper(TreeNode root, ArrayList<Integer> res)
 public ArrayList<Integer> inorderTraversal(TreeNode root) {  
     ArrayList<Integer> res = new ArrayList<Integer>();  
     LinkedList<TreeNode> stack = new LinkedList<TreeNode>();  
+
     while(root!=null || !stack.isEmpty())  
     {  
         if(root!=null)  
@@ -47,6 +48,7 @@ public ArrayList<Integer> inorderTraversal(TreeNode root) {
 }  
 ```
 
+#### 先序
 /*    
 原题链接: http://oj.leetcode.com/problems/binary-tree-preorder-traversal/ 
 跟Binary Tree Inorder Traversal一样，二叉树的先序遍历我们仍然介绍三种方法，第一种是递归，第二种是迭代方法，第三种是用线索二叉树。
@@ -96,6 +98,8 @@ public ArrayList<Integer> preorderTraversal(TreeNode root) {
     return res;  
 }  
 ```
+
+#### 后序
 
 /*                    
 原题链接: http://oj.leetcode.com/problems/binary-tree-postorder-traversal/ 

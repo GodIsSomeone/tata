@@ -14,7 +14,7 @@ public:
         {
             return l1;
         }
-         /*确定链表头结点，谁小谁是头结点*/      
+         /*确定链表头结点，谁小谁是头结点*/
         if (l1->val < l2->val)
         {
             retList = l1;
@@ -27,7 +27,6 @@ public:
         }
         tempNode = retList;
 
-        
         while (l1 &&  l2)
         {
             if (l1->val < l2->val)
@@ -43,6 +42,7 @@ public:
 
             tempNode = tempNode->next;
         }
+
         //while中如果没有进行完，则补上
         if (!l1)
         {

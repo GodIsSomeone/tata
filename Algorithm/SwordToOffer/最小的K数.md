@@ -95,7 +95,8 @@ void maxK(int arr[], int size, int k)
 ```
 void maxKbyBubble(int arr[], int size, int k)
 {
-    int arrK[k];
+    int arrK[k];   //定义数组
+
     for(int i=0;i<k;i++)
     {
         for(int j=0;j<size-1-i; j++)
@@ -107,7 +108,8 @@ void maxKbyBubble(int arr[], int size, int k)
                 arr[j] = temp;
             }
         }
-        arrK[i] = arr[size-1-i];
+
+        arrK[i] = arr[size-1-i]; //末尾数字赋值
     }
 
     printArray(arrK, k);
