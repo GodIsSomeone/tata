@@ -37,9 +37,9 @@ int main()
     //QuickSort(arr,10);
     //heap_sort(arr,10);
     //shell_sort(arr,10);
-    //SelectSort(arr,10);
+    SelectSort(arr,10);
     //InsertSort(arr,10);
-    merge_sort(arr, 10);
+    //merge_sort(arr, 10);
     system("pause");
     return 0;
 }
