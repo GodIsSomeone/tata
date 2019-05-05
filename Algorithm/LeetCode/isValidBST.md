@@ -9,6 +9,7 @@
     }
     bool helper(TreeNode* root, TreeNode* &tmpNode)
     {
+    /*中序遍历，只比较判断，不进行其他处理*/
         if (root == NULL)
         {
             return true;
