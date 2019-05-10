@@ -1,8 +1,9 @@
 
 ### C++基本知识
+
 1. 如何消除隐式转换？
 
-[Explicit](https://www.cnblogs.com/bastard/archive/2012/02/09/2344425.html)
+    [Explicit](https://www.cnblogs.com/bastard/archive/2012/02/09/2344425.html)
 
     C＋＋编译器能够在两种数据类型之间进行隐式转换（implicit conversions）。  
     隐式把char——>int和从short——>double。转换可能会导致数据的丢失。  
@@ -36,7 +37,7 @@
 
 7. free一个数组时如何知道要释放多大的内存呢？
     + malloc是C/C++中的动态内存分配的标准库函数，函数原型：void* malloc(unsigned int size)；其功能就是在堆上动态开辟内存空间，它的特点：  
-     
+
       + 返回值为void*，（void* 类型可以强制转换为任何其它类型的指针，但反过来就不行了）；  
       + 需要具体指定要分配空间的大小size，且size类型为无符整型（unsigned int）；  
       + 它允许申请0个长度的内存（这点很有意思吧）；  
@@ -56,13 +57,13 @@
     + 引用的大小是引用对象的大小；指针大小就是4或者8。
 
 10. 出现异常时，try和catch做了什么？
-    
+
 + 搜不到
-    
+
 11. C++如何处理多个异常的？
-    
+
 + 搜不到
-    
+
 12. 常对象的成员变量一定不可以修改吗？为什么？
     + 常对象中所有的成员变量的值都不能被修改
     + 常对象访问函数时只能访问常成员函数；
@@ -168,9 +169,9 @@
 
 
 23. C语言调用C++语法函数怎么做？那C++调用C语法的函数怎么做？
-    
+
 + extern “C”
-    
+
 24. Extern “C”是什么意思？他有什么作用？
     在C语言中，修饰符extern用在变量或者函数的声明前，用来说明**此变量/函数是在别处定义的，要在此处引用**。  
 
@@ -195,6 +196,7 @@
     const float EPSINON = 0.00001;  
     if((x >= - EPSINON) && (x <= EPSINON)  
     这样判断是可取的至于为什么取0.00001，可以自己按实际情况定义。  
+
     ```
     const foat EPSINON = 0.000001;
     float A = 80.43323,B = 80.433199;
@@ -246,32 +248,32 @@
     > 具有虚拟行为的非成员函数很简单。**你编写一个虚拟函数来完成工作，然后再写一个非虚拟函数，它什么也不做，只是调用这个虚拟函数**。
     > 为了避免这个句法花招引起函数调用开销，你当然可以内联这个非虚拟函数（参见 Effective C++ 条款 33）。
 
-```
-class A
-{
-public:
-    A(int);
-    A(A const &rhs);
-    virtual ~A();
-    virtual A* clone()
-    {  
-        return  new A (*this);
-    }
-};
-
-class B:public A
-{
-public:
-    B(int);
-    B(B const &rhs);
-    virtual ~B();
-    virtual B* clone()
+    ```
+    class A
     {
-        //return new B();    //调用构造函数；
-        return new B(*this); //调用拷贝构造函数；
-    }
-};
-```
+    public:
+        A(int);
+        A(A const &rhs);
+        virtual ~A();
+        virtual A* clone()
+        {  
+            return  new A (*this);
+        }
+    };
+
+    class B:public A
+    {
+    public:
+        B(int);
+        B(B const &rhs);
+        virtual ~B();
+        virtual B* clone()
+        {
+            //return new B();    //调用构造函数；
+            return new B(*this); //调用拷贝构造函数；
+        }
+    };
+    ```
 
 38. 析构函数能不能虚函数？为什么？
     在实现多态时，当用基类操作派生类，在析构时防止只析构基类而不析构派生类的状况发生。  
